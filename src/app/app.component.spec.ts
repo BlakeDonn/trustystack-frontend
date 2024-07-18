@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'trustystack-angular' title`, () => {
+  it(`should have the 'trustystack-frontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('trustystack-angular');
+    expect(app.title).toEqual('trustystack-frontend');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, trustystack-angular');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, trustystack-frontend');
   });
 });

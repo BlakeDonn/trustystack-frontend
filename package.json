@@ -1,5 +1,5 @@
 {
-  "name": "trustystack-angular",
+  "name": "trustystack-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:trustystack-angular": "node dist/trustystack-angular/server/server.mjs"
+    "serve:ssr:trustystack-frontend": "node dist/trustystack-frontend/server/server.mjs"
   },
   "private": true,
   "dependencies": {
