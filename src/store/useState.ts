@@ -1,4 +1,4 @@
-import create from 'zustand';
+import create from "zustand";
 
 interface StoreState {
   count: number;
@@ -11,4 +11,3 @@ export const useStore = create<StoreState>((set) => ({
   increase: () => set((state) => ({ count: state.count + 1 })),
   decrease: () => set((state) => ({ count: state.count - 1 })),
 }));
-
