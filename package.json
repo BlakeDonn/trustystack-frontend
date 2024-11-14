@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "format": "biome format ./src --write",
+    "format:check": "biome format ./src --check",
     "lint": "biome check ./src"
   },
   "dependencies": {
