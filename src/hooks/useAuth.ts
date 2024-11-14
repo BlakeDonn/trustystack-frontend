@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useStore } from "@/store";
 import { login, logout } from "@/services/authService";
+import { useStore } from "@/store";
+import { useEffect, useState } from "react";
 
 const useAuth = () => {
   const { user, setUser } = useStore();
