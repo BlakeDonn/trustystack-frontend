@@ -7,11 +7,18 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": [
+      ".next/**",
+      "node_modules/**",
+      "build/**",
+      "dist/**"
+    ]
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "lineWidth": 80,
+    "indentStyle": "space",
+    "indentWidth": 2
   },
   "organizeImports": {
     "enabled": true

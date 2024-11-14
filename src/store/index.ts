@@ -1,1 +1,1 @@
-export { useStore } from "./useState"; 
+export { useStore } from "./useState";
