@@ -9,28 +9,44 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-          
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        
+
       - name: Lint
         run: yarn lint
-        
+
       - name: Format check
-        run: yarn format --check
-        
+        run: yarn format
+
+      - name: Run Unit Tests
+        run: yarn test:unit
+
+      - name: Run E2E Tests
+        run: yarn test:e2e:run
+
       - name: Build
         run: yarn build
+
+      - name: Set up environment variables
+        run: |
+          echo "NEXTAUTH_BACKEND_URL=http://localhost:3001/api/login" >> $GITHUB_ENV
+          echo "NEXTAUTH_URL=http://localhost:3001" >> $GITHUB_ENV
+        env:
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
