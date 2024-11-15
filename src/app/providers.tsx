@@ -10,4 +10,4 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return <SessionProvider>{children}</SessionProvider>;
 };
 
-export default Providers; 
+export default Providers;

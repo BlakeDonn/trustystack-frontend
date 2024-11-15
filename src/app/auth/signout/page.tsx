@@ -6,9 +6,9 @@ export default function SignOut() {
   return (
     <div>
       <h1>Sign Out</h1>
-      <button onClick={() => signOut({ callbackUrl: "/" })}>
+      <button type={"button"} onClick={() => signOut({ callbackUrl: "/" })}>
         Confirm Sign Out
       </button>
     </div>
   );
-} 
+}

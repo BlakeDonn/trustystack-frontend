@@ -13,4 +13,4 @@ export default function ErrorPage() {
       <a href="/auth/signin">Go back to Sign In</a>
     </div>
   );
-} 
+}

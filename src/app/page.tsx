@@ -2,7 +2,7 @@
 
 import Header from "@/components/Header";
 import Login from "@/components/Login";
-import { useSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -15,7 +15,9 @@ export default function Home() {
       {session ? (
         <div>
           <p>Welcome, {session.user?.name}!</p>
-          <button onClick={() => signOut()}>Logout</button>
+          <button type={"button"} onClick={() => signOut()}>
+            Logout
+          </button>
         </div>
       ) : (
         <Login />

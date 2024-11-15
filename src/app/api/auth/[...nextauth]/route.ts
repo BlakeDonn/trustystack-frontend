@@ -1,22 +1,33 @@
 import NextAuth from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
+
+const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, NEXTAUTH_BACKEND_URL } =
+  process.env;
+
+if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+  throw new Error("Missing GitHub OAuth credentials in environment variables.");
+}
 
 export const authOptions = {
   providers: [
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      clientId: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "jsmith@example.com" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "jsmith@example.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const authUrl =
-          process.env.NEXTAUTH_BACKEND_URL || "https://your-backend.com/api/login";
+          NEXTAUTH_BACKEND_URL || "https://your-backend.com/api/login";
 
         const res = await fetch(authUrl, {
           method: "POST",
@@ -46,4 +57,4 @@ export const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };
