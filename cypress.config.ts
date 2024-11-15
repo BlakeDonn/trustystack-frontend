@@ -2,14 +2,10 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3001',
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      // Implement node event listeners here
     },
     defaultCommandTimeout: 10000,
-    retries: {
-      runMode: 2,
-      openMode: 0,
-    },
   },
 }); 

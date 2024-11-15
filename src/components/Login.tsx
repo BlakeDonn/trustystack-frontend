@@ -37,10 +37,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <div>
       <h2>Login Screen</h2>
       <div>
-        <button onClick={() => handleOAuthSignIn("github")}>
+        <button type="button" onClick={() => handleOAuthSignIn("github")}>
           Login with GitHub
         </button>
-        <button onClick={() => handleOAuthSignIn("google")}>
+        <button type="button" onClick={() => handleOAuthSignIn("google")}>
           Login with Google
         </button>
       </div>

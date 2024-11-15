@@ -25,10 +25,10 @@ export default function SignIn() {
     <div>
       <h1>Sign In</h1>
       <div>
-        <button onClick={() => handleOAuthSignIn("github")}>
+        <button type="button" onClick={() => handleOAuthSignIn("github")}>
           Sign in with GitHub
         </button>
-        <button onClick={() => handleOAuthSignIn("google")}>
+        <button type="button" onClick={() => handleOAuthSignIn("google")}>
           Sign in with Google
         </button>
       </div>

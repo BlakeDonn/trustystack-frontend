@@ -3,8 +3,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NEXTAUTH_BACKEND_URL } =
-  process.env;
+const {
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  NEXTAUTH_BACKEND_URL,
+  NEXTAUTH_URL,
+} = process.env;
 
 if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
   throw new Error("Missing GitHub OAuth credentials in environment variables.");
@@ -36,7 +42,7 @@ export const authOptions = {
       },
       async authorize(credentials) {
         const authUrl =
-          NEXTAUTH_BACKEND_URL || "https://your-backend.com/api/login";
+          NEXTAUTH_BACKEND_URL || "http://localhost:3001/api/login";
 
         const res = await fetch(authUrl, {
           method: "POST",
@@ -62,6 +68,14 @@ export const authOptions = {
     error: "/auth/error",
   },
   debug: process.env.NODE_ENV === "development",
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
+  },
+  csrf: {
+    enable: process.env.NODE_ENV !== "test",
+  },
 };
 
 const handler = NextAuth(authOptions);
