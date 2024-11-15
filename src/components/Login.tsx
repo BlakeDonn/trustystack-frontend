@@ -29,31 +29,47 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+  const handleOAuthSignIn = (provider: string) => {
+    signIn(provider, { callbackUrl: "/" });
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <br />
-      <button type="submit">Login</button>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-    </form>
+    <div>
+      <h2>Login Screen</h2>
+      <div>
+        <button onClick={() => handleOAuthSignIn("github")}>
+          Login with GitHub
+        </button>
+        <button onClick={() => handleOAuthSignIn("google")}>
+          Login with Google
+        </button>
+      </div>
+      <h3>Or use your email</h3>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit">Login button</button>
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      </form>
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ export default function Home() {
       {session ? (
         <div>
           <p>Welcome, {session.user?.name}!</p>
-          <button type={"button"} onClick={() => signOut()}>
+          <button type="button" onClick={() => signOut()}>
             Logout
           </button>
         </div>

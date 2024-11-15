@@ -30,7 +30,7 @@ jobs:
         run: yarn lint
         
       - name: Format check
-        run: yarn format --check
+        run: yarn format:check
         
       - name: Run Unit Tests
         run: yarn test:unit
@@ -42,7 +42,8 @@ jobs:
         run: yarn build
         
       - name: Set up environment variables
-        run: cp .env.test .env.local
+        run: |
+          echo "NEXTAUTH_BACKEND_URL=http://localhost:3000/api/login" >> $GITHUB_ENV
         env:
           GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}

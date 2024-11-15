@@ -6,7 +6,7 @@ import { vi } from "vitest";
 vi.mock("next-auth/react");
 
 describe("Login Component", () => {
-  it("calls signIn on form submission", async () => {
+  it("calls signIn on form submission with credentials", async () => {
     const mockSignIn = vi.mocked(signIn);
     mockSignIn.mockResolvedValue({ ok: true });
 
@@ -18,7 +18,7 @@ describe("Login Component", () => {
     fireEvent.change(screen.getByLabelText(/Password:/i), {
       target: { value: "password123" },
     });
-    fireEvent.click(screen.getByText(/Login/i));
+    fireEvent.click(screen.getByText(/Login button/i));
 
     expect(mockSignIn).toHaveBeenCalledWith("credentials", {
       redirect: false,
@@ -26,5 +26,23 @@ describe("Login Component", () => {
       password: "password123",
       callbackUrl: "/",
     });
+  });
+
+  it("initiates signIn with GitHub when GitHub button is clicked", () => {
+    const mockSignIn = vi.mocked(signIn);
+    render(<Login />);
+
+    fireEvent.click(screen.getByText(/Login with GitHub/i));
+
+    expect(mockSignIn).toHaveBeenCalledWith("github", { callbackUrl: "/" });
+  });
+
+  it("initiates signIn with Google when Google button is clicked", () => {
+    const mockSignIn = vi.mocked(signIn);
+    render(<Login />);
+
+    fireEvent.click(screen.getByText(/Login with Google/i));
+
+    expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/" });
   });
 });

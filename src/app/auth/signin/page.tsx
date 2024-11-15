@@ -17,9 +17,22 @@ export default function SignIn() {
     });
   };
 
+  const handleOAuthSignIn = (provider: string) => {
+    signIn(provider, { callbackUrl: "/" });
+  };
+
   return (
     <div>
       <h1>Sign In</h1>
+      <div>
+        <button onClick={() => handleOAuthSignIn("github")}>
+          Sign in with GitHub
+        </button>
+        <button onClick={() => handleOAuthSignIn("google")}>
+          Sign in with Google
+        </button>
+      </div>
+      <h2>Or use your email</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Email:
