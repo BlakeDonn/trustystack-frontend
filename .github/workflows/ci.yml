@@ -32,5 +32,17 @@ jobs:
       - name: Format check
         run: yarn format --check
         
+      - name: Run Unit Tests
+        run: yarn test:unit
+        
+      - name: Run E2E Tests
+        run: yarn test:e2e:run
+        
       - name: Build
         run: yarn build
+        
+      - name: Set up environment variables
+        run: cp .env.test .env.local
+        env:
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}

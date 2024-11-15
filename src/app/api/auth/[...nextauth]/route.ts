@@ -15,7 +15,10 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("https://your-backend.com/api/login", {
+        const authUrl =
+          process.env.NEXTAUTH_BACKEND_URL || "https://your-backend.com/api/login";
+
+        const res = await fetch(authUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
