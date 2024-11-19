@@ -1,11 +1,14 @@
-import { defineConfig } from 'cypress';
+import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3001',
+    baseUrl: "http://localhost:3000",
     setupNodeEvents(on, config) {
-      // Implement node event listeners here
+      // Implement node event listeners here if needed
     },
     defaultCommandTimeout: 10000,
   },
-}); 
+  env: {
+    NEXTAUTH_URL: "http://localhost:3001",
+  },
+});
