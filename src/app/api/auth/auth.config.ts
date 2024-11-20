@@ -2,11 +2,19 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NEXTAUTH_BACKEND_URL } =
-  process.env;
+const {
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  NEXTAUTH_URL,
+  NEXTAUTH_SECRET
+} = process.env;
 
 if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
-  throw new Error("Missing Google OAuth credentials in environment variables.");
+  throw new Error("Missing Google OAuth credentials");
+}
+
+if (!NEXTAUTH_SECRET) {
+  throw new Error("Missing NEXTAUTH_SECRET");
 }
 
 export const authOptions: NextAuthOptions = {
@@ -26,10 +34,11 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const authUrl =
-          NEXTAUTH_BACKEND_URL || "http://localhost:3001/api/login";
+        if (!credentials?.email || !credentials.password) {
+          return null;
+        }
 
-        const res = await fetch(authUrl, {
+        const res = await fetch(`${NEXTAUTH_URL}/api/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
@@ -44,21 +53,20 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
   pages: {
     signIn: "/auth/signin",
     signOut: "/auth/signout",
     error: "/auth/error",
   },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  secret: NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
   callbacks: {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-  },
-  csrf: {
-    enable: process.env.NODE_ENV !== "test",
   },
 };

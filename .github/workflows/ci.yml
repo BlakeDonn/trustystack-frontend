@@ -45,9 +45,9 @@ jobs:
       - name: Create .env.test
         run: |
           echo "NODE_ENV=test" > .env.test
-          echo "PORT=3001" >> .env.test
-          echo "NEXTAUTH_BACKEND_URL=http://localhost:3001/api/login" >> .env.test
-          echo "NEXTAUTH_URL=http://localhost:3001" >> .env.test
+          echo "PORT=3000" >> .env.test
+          echo "NEXTAUTH_BACKEND_URL=http://localhost:3000/api/login" >> .env.test
+          echo "NEXTAUTH_URL=http://localhost:3000" >> .env.test
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env.test
           echo "GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}" >> .env.test
           echo "GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}" >> .env.test
