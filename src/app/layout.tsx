@@ -2,6 +2,7 @@ import { Providers } from "@/app/providers";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "../styles/globals.css";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
