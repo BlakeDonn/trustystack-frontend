@@ -29,8 +29,17 @@
       "@components/*": [
         "./src/components/*"
       ],
-      "@auth/*": [
-        "./src/auth/*"
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
       ]
     },
     "types": [

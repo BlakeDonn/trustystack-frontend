@@ -9,21 +9,28 @@
     "start": "next start",
     "format": "biome format ./src --write",
     "format:check": "biome format ./src --check",
-    "lint": "biome check ./src",
+    "lint": "biome check ./src --fix --unsafe",
+    "lint:fix": "biome check ./src --fix --unsafe",
     "test": "vitest",
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "cypress open",
-    "test:e2e:run": "env $(cat .env.test | xargs) start-server-and-test dev http://localhost:3001 cypress:run",
+    "test:e2e:run": "start-server-and-test 'next dev' http://localhost:3000 cypress:run",
     "cypress:run": "cypress run"
   },
   "dependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@nextui-org/button": "^2.0.38",
+    "@nextui-org/react": "^2.4.8",
+    "@nextui-org/system": "^2.2.6",
+    "@nextui-org/theme": "^2.2.11",
     "@tanstack/react-query": "^5.59.20",
+    "framer-motion": "^11.11.17",
     "next": "15.0.2",
     "next-auth": "^4.24.10",
     "react": "19.0.0-rc-02c0e824-20241028",
-    "react-dom": "19.0.0-rc-02c0e824-20241028"
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",

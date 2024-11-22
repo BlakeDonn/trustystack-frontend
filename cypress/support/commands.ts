@@ -3,31 +3,42 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      mockOAuth(provider: string): Chainable<void>
+      mockOAuth(provider: "github" | "google"): Chainable<void>;
     }
   }
 }
 
-Cypress.Commands.add('mockOAuth', (provider: string) => {
-  // Intercept the CSRF token request that happens before OAuth
-  cy.intercept('GET', '/api/auth/csrf', {
-    statusCode: 200,
-    body: { csrfToken: 'fake-csrf-token' }
-  });
-
-  // Intercept the OAuth sign-in request
-  cy.intercept('POST', `/api/auth/signin/${provider}`, {
-    statusCode: 302,
-    headers: {
-      'Location': `http://localhost:3001/api/auth/callback/${provider}?code=mock_code`
-    }
+Cypress.Commands.add("mockOAuth", (provider: "github" | "google") => {
+  // Mock the OAuth initiation POST request
+  cy.intercept("POST", `/api/auth/signin/${provider}`, (req) => {
+    console.log(`Intercepted ${provider} OAuth POST request:`, req);
+    req.reply({
+      statusCode: 200,
+      body: {
+        user: {
+          name: "Test User",
+          email: "test@example.com",
+        },
+      },
+      headers: {
+        "Set-Cookie": "next-auth.session-token=mock_session_token",
+      },
+    });
   }).as(`${provider}OAuth`);
-  
-  // Intercept the callback URL
-  cy.intercept('GET', `/api/auth/callback/${provider}**`, {
-    statusCode: 200,
-    fixture: 'oauth-callback.json'
-  });
+
+  // Mock the session check
+  cy.intercept("GET", "/api/auth/session", (req) => {
+    console.log(`Intercepted session GET request:`, req);
+    req.reply({
+      statusCode: 200,
+      body: {
+        user: {
+          name: "Test User",
+          email: "test@example.com",
+        },
+      },
+    });
+  }).as("session");
 });
 
-export {};
+export { };

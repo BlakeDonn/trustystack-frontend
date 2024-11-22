@@ -15,38 +15,66 @@ jobs:
         node-version: [18.x, 20.x]
 
     steps:
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # Step 4: Lint the code
       - name: Lint
         run: yarn lint
 
+      # Step 5: Check code formatting
       - name: Format check
         run: yarn format
 
+      # Step 6: Run Unit Tests
       - name: Run Unit Tests
         run: yarn test:unit
 
-      - name: Run E2E Tests
-        run: yarn test:e2e:run
-
-      - name: Build
-        run: yarn build
-
-      - name: Set up environment variables
+      # Step 7: Create .env.test File Using GitHub Secrets
+      - name: Create .env.test
         run: |
-          echo "NEXTAUTH_BACKEND_URL=http://localhost:3001/api/login" >> $GITHUB_ENV
-          echo "NEXTAUTH_URL=http://localhost:3001" >> $GITHUB_ENV
+          echo "NODE_ENV=test" > .env.test
+          echo "PORT=3000" >> .env.test
+          echo "NEXTAUTH_BACKEND_URL=http://localhost:3000/api/login" >> .env.test
+          echo "NEXTAUTH_URL=http://localhost:3000" >> .env.test
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env.test
+          echo "GITHUB_CLIENT_ID=${{ secrets.GITHUB_CLIENT_ID }}" >> .env.test
+          echo "GITHUB_CLIENT_SECRET=${{ secrets.GITHUB_CLIENT_SECRET }}" >> .env.test
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env.test
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env.test
+          echo "NEXT_PUBLIC_API_URL=http://localhost:3001/api" >> .env.test
+          echo "NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=TEST_GOOGLE_ANALYTICS_ID" >> .env.test
         env:
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+      # Step 8: Copy .env.test to .env.production
+      - name: Prepare Environment Variables for Build
+        run: cp .env.test .env.production
+
+      # Step 9: Run E2E Tests with NODE_ENV=test
+      - name: Run E2E Tests
+        env:
+          NODE_ENV: test
+        run: |
+          yarn dev & # Start the Next.js server in the background
+          yarn cypress:run
+
+      # Step 10: Build the project
+      - name: Build
+        run: yarn build
+

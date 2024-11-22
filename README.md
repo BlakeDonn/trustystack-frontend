@@ -55,8 +55,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
    GITHUB_CLIENT_SECRET=your_github_client_secret
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
-   NEXTAUTH_BACKEND_URL=http://localhost:3001/api/login
-   NEXTAUTH_URL=http://localhost:3001
+   NEXTAUTH_BACKEND_URL=http://localhost:3000/api/login
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_nextauth_secret
    ```
 
 ## Available Scripts
@@ -286,8 +287,9 @@ The application requires the following environment variables:
 - `GITHUB_CLIENT_SECRET`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
-- `NEXTAUTH_BACKEND_URL` (e.g., `http://localhost:3001/api/login`)
-- `NEXTAUTH_URL` (e.g., `http://localhost:3001`)
+- `NEXTAUTH_BACKEND_URL` (e.g., `http://localhost:3000/api/login`)
+- `NEXTAUTH_URL` (e.g., `http://localhost:3000`)
+- `NEXTAUTH_SECRET`
 
 Ensure these variables are set in your `.env` file.
 
