@@ -62,7 +62,11 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-      # Step 8: Run E2E Tests with NODE_ENV=test
+      # Step 8: Copy .env.test to .env.production
+      - name: Prepare Environment Variables for Build
+        run: cp .env.test .env.production
+
+      # Step 9: Run E2E Tests with NODE_ENV=test
       - name: Run E2E Tests
         env:
           NODE_ENV: test
@@ -70,7 +74,7 @@ jobs:
           yarn dev & # Start the Next.js server in the background
           yarn cypress:run
 
-      # Step 9: Build the project
+      # Step 10: Build the project
       - name: Build
         run: yarn build
 

@@ -1,7 +1,8 @@
 "use client";
 
-import Header from "@/components/common/Header";
 import { SignInForm } from "@/components/auth/SignInForm";
+import Header from "@/components/common/Header";
+import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import loading from "./loading";
 
@@ -18,13 +19,9 @@ export default function Home() {
       {session ? (
         <div>
           <p>Welcome, {session.user?.name}!</p>
-          <button
-            type="button"
-            onClick={() => signOut()}
-            className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-          >
+          <Button type="button" onClick={() => signOut()}>
             Logout
-          </button>
+          </Button>
         </div>
       ) : (
         <SignInForm callbackUrl="/dashboard" />

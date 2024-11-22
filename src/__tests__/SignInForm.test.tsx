@@ -1,9 +1,9 @@
 import { expect } from "vitest";
 
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { vi } from "vitest";
 import { SignInForm } from "@/components/auth/SignInForm";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signIn } from "next-auth/react";
+import { vi } from "vitest";
 
 vi.mock("next-auth/react");
 

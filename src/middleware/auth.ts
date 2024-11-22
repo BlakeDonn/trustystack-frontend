@@ -7,9 +7,5 @@ export const middleware = withAuth({
 });
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/profile/:path*",
-    "/api/protected/:path*",
-  ],
+  matcher: ["/dashboard/:path*", "/profile/:path*", "/api/protected/:path*"],
 };

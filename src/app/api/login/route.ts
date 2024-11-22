@@ -1,5 +1,5 @@
 import { validateEnv } from "@/lib/env";
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const loginSchema = z.object({

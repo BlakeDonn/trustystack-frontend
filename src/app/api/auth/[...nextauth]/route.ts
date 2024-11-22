@@ -1,6 +1,6 @@
 import { authOptions } from "@/config/auth.config";
-import NextAuth from "next-auth";
 import { validateEnv } from "@/lib/env";
+import NextAuth from "next-auth";
 
 validateEnv();
 
