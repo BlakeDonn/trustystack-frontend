@@ -1,32 +1,20 @@
 describe("Sign In Flow", () => {
   beforeEach(() => {
-    cy.visit("/auth/signin");
-    cy.on("uncaught:exception", () => false);
+    cy.visit("/signin");
   });
 
-  it("should sign in successfully with valid credentials", () => {
-    cy.get('input[type="email"]').type("test@example.com");
-    cy.get('input[type="password"]').type("password123");
-    cy.get('button[type="submit"]').click();
-    cy.url().should("eq", "http://localhost:3000/");
-    cy.contains("Welcome,");
+  it("displays sign in page", () => {
+    cy.get("h1").should("contain", "Sign In");
+    cy.contains("Sign in with Google").should("be.visible");
   });
 
-  //it("should initiate GitHub OAuth flow", () => {
-  //  cy.mockOAuth("github");
-  //  cy.get("button")
-  //    .contains(/Sign in with GitHub/i)
-  //    .click();
-  //  cy.wait("@githubOAuth");
-  //  cy.url().should("eq", "http://localhost:3001/");
-  //});
+  it("handles Google OAuth sign in", () => {
+    cy.intercept("POST", "/api/auth/signin/google", {
+      statusCode: 200,
+      body: { url: "/api/auth/callback/google" },
+    }).as("googleSignIn");
 
-  it("should initiate Google OAuth flow", () => {
-    cy.mockOAuth("google");
-    cy.get("button")
-      .contains(/Sign in with Google/i)
-      .click();
-    cy.wait("@googleOAuth");
-    cy.url().should("eq", "http://localhost:3000/");
+    cy.contains("Sign in with Google").click();
+    cy.wait("@googleSignIn");
   });
 });

@@ -1,8 +1,8 @@
-// src/app/api/auth/[...nextauth]/route.ts
-
+import { authOptions } from "@/config/auth.config";
 import NextAuth from "next-auth";
-import { authOptions } from "../auth.config";
+import { validateEnv } from "@/lib/env";
+
+validateEnv();
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

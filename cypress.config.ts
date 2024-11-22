@@ -9,6 +9,6 @@ export default defineConfig({
     defaultCommandTimeout: 10000,
   },
   env: {
-    NEXTAUTH_URL: "http://localhost:3001",
+    NEXTAUTH_URL: "http://localhost:3000",
   },
 });
