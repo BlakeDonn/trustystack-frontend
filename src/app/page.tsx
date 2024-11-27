@@ -1,16 +1,16 @@
 "use client";
 
 import { SignInForm } from "@/components/auth/SignInForm";
-import Header from "@/components/common/Header";
+import Header from "@components/layout/Header/Header";
 import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
-import loading from "./loading";
+import Loading from "./loading";
 
 export default function Home() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return loading();
+    return <Loading />;
   }
 
   return (

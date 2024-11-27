@@ -1,6 +1,6 @@
 "use client";
 
-import loading from "@/app/loading";
+import Loading from "@/app/loading";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import Button from "../ui/Button";
@@ -29,7 +29,7 @@ export function SignInForm({ callbackUrl = "/dashboard" }: SignInFormProps) {
     <div className="space-y-4">
       <Button onClick={handleGoogleSignIn} disabled={isLoading} className="btn">
         {isLoading ? (
-          loading()
+          <Loading />
         ) : (
           <>
             <GoogleIcon className="w-5 h-5" />

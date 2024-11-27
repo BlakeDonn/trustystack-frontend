@@ -4394,6 +4394,11 @@ https-proxy-agent@^7.0.5:
     agent-base "^7.0.2"
     debug "4"
 
+hugeicons-react@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/hugeicons-react/-/hugeicons-react-0.3.0.tgz#a788db21b116f16062b75ccf3a3633575722ec9f"
+  integrity sha512-znmC+uX7xVqcIs0q09LvwEvJkjX0U3xgT05BSiRV19farS4lPONOKjYT0JkcQG5cvfV0rXHSEAEVNjbHAu81rg==
+
 human-signals@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
