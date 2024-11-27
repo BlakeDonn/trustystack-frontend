@@ -1,8 +1,8 @@
 // src/components/Header/NavigationLinks.tsx
 
-import React from "react";
-import { NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 import { NAV_LINKS, type NavLink } from "@/constants/headerConstants";
+import { Link, NavbarContent, NavbarItem } from "@nextui-org/react";
+import React from "react";
 import styles from "./Header.module.css";
 
 const NavigationLinks: React.FC = () => (

@@ -1,10 +1,10 @@
 // src/__tests__/Header.test.tsx
 
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import Header from "@/components/layout/Header/Header";
+import { render, screen } from "@testing-library/react";
 import { useSession } from "next-auth/react";
-import { vi, expect } from "vitest";
+import React from "react";
+import { expect, vi } from "vitest";
 
 vi.mock("next-auth/react");
 

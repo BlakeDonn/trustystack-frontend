@@ -1,11 +1,11 @@
 "use client";
 
-import React, { ReactElement } from "react";
 import { SignInForm } from "@/components/auth/SignInForm";
+import PageLayout from "@/components/layout/PageLayout";
 import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
+import React, { type ReactElement } from "react";
 import Loading from "./loading";
-import PageLayout from "@/components/layout/PageLayout";
 
 const Home: React.FC = React.memo((): ReactElement => {
   const { data: session, status } = useSession();
@@ -31,4 +31,3 @@ const Home: React.FC = React.memo((): ReactElement => {
 });
 
 export default Home;
-

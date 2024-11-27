@@ -1,9 +1,9 @@
 // src/__tests__/NavigationLinks.test.tsx
 
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import NavigationLinks from "@/components/layout/Header/NavigationLinks";
 import { Navbar } from "@nextui-org/react";
+import { render, screen } from "@testing-library/react";
+import React from "react";
 import { expect } from "vitest";
 describe("NavigationLinks Component", () => {
   const renderComponent = () => {

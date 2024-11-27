@@ -1,13 +1,13 @@
 // src/components/Header/Header.tsx
 
-import React, { Suspense } from "react";
-import { Navbar, NavbarBrand, NavbarContent, Input } from "@nextui-org/react";
+import Loading from "@/app/loading";
 import { CoastalLogo } from "@/components/branding/CoastalLogo";
+import { Input, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
 import { Search01Icon } from "hugeicons-react";
+import { useSession } from "next-auth/react";
+import React, { Suspense } from "react";
 import styles from "./Header.module.css";
 import NavigationLinks from "./NavigationLinks";
-import { useSession } from "next-auth/react";
-import Loading from "@/app/loading";
 
 // Lazy load UserMenu
 const UserMenu = React.lazy(() => import("./UserMenu"));

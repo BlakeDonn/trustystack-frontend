@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { type ReactNode, type ReactElement, useMemo } from "react";
+import { type ReactElement, type ReactNode, useMemo } from "react";
 
 interface ProvidersProps {
   children: ReactNode;

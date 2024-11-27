@@ -1,16 +1,16 @@
 // src/components/Header/UserMenu.tsx
 
-import React from "react";
+import type { UserMenuItem } from "@/constants/headerConstants";
 import {
+  Avatar,
   Dropdown,
   DropdownItem,
-  DropdownTrigger,
   DropdownMenu,
-  Avatar,
+  DropdownTrigger,
 } from "@nextui-org/react";
-import styles from "./Header.module.css";
-import { UserMenuItem } from "@/constants/headerConstants";
 import { signOut } from "next-auth/react";
+import React from "react";
+import styles from "./Header.module.css";
 
 interface UserMenuProps {
   userName: string;

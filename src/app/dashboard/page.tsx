@@ -2,11 +2,11 @@
 
 "use client";
 
-import React, { ReactElement } from "react";
-import { useSession } from "next-auth/react";
-import { Card, CardBody } from "@nextui-org/react";
-import Loading from "../loading";
 import PageLayout from "@/components/layout/PageLayout";
+import { Card, CardBody } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import React, { type ReactElement } from "react";
+import Loading from "../loading";
 
 const Dashboard: React.FC = React.memo((): ReactElement => {
   const { data: session, status } = useSession();

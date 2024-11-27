@@ -1,7 +1,7 @@
-import React from "react";
 import { Providers } from "@/app/providers";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import type React from "react";
 import "tailwindcss/tailwind.css";
 
 const geistSans = localFont({

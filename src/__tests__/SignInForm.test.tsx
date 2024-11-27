@@ -1,13 +1,13 @@
-import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { SignInForm } from "@/components/auth/SignInForm";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signIn } from "next-auth/react";
-import { vi, expect } from "vitest";
+import React from "react";
+import { expect, vi } from "vitest";
 
 describe("SignInForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(console, "error").mockImplementation(() => { });
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("renders the Sign In button", () => {

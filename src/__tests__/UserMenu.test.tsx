@@ -1,10 +1,10 @@
 // src/__tests__/UserMenu.test.tsx
 
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
 import UserMenu from "@/components/layout/Header/UserMenu";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { signOut } from "next-auth/react";
-import { vi, expect } from "vitest";
+import React from "react";
+import { expect, vi } from "vitest";
 
 vi.mock("next-auth/react");
 

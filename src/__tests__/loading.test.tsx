@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
 import Loading from "@/app/loading";
+import { render, screen } from "@testing-library/react";
 import { expect } from "vitest";
 
 describe("Loading Component", () => {
