@@ -16,7 +16,7 @@ const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <Navbar isBordered className={styles.navbarContent}>
+    <Navbar isBordered maxWidth="full">
       <NavbarContent className={styles.navbarContent}>
         {/* Left Section: Brand Logo */}
         <NavbarBrand className={styles.navbarBrand}>

@@ -1,5 +1,7 @@
 // src/constants/headerConstants.ts
 
+import type { ListboxItemProps } from "@nextui-org/react";
+
 export interface NavLink {
   name: string;
   href: string;
@@ -10,7 +12,7 @@ export interface UserMenuItem {
   key: string;
   label: string;
   subLabel?: string;
-  color?: string;
+  color?: ListboxItemProps["color"];
   isHeader?: boolean;
 }
 
