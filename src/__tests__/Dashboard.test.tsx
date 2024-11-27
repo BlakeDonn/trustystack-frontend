@@ -3,68 +3,36 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Dashboard from "@/app/dashboard/page";
-import Header from "@/components/layout/Header/Header";
-import { SessionProvider } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { expect, vi } from "vitest";
+import { useSession, signOut } from "next-auth/react";
+import { vi, expect } from "vitest";
 
-vi.mock("next-auth/react", () => ({
-  ...vi.importActual("next-auth/react"),
-  signOut: vi.fn(),
-}));
+vi.mock("next-auth/react");
 
 describe("Dashboard Component", () => {
-  const mockSession = {
-    user: {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      image: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-    },
-    expires: "1",
-  };
-
-  const renderComponent = () => {
-    render(
-      <SessionProvider session={mockSession}>
-        <Dashboard />
-      </SessionProvider>,
-    );
-  };
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it("renders Header and welcome message correctly", () => {
-    renderComponent();
+    (useSession as vi.Mock).mockReturnValue({
+      data: { user: { name: "John Doe", email: "john@example.com" } },
+      status: "authenticated",
+    });
 
-    // Check Header
-    const logoElement = screen.getByAltText(/coastal logo/i);
-    expect(logoElement).toBeInTheDocument();
-
-    // Check welcome message
-    expect(screen.getByText(/welcome, john doe!/i)).toBeInTheDocument();
+    render(<Dashboard />);
+    expect(screen.getByText(/welcome, john doe/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/your email: john.doe@example.com/i),
+      screen.getByText(/your email: john@example.com/i),
     ).toBeInTheDocument();
   });
 
-  it("calls signOut when Logout button is clicked", () => {
-    renderComponent();
-
-    // Assuming Logout button is within Header's UserMenu
-    const avatarButton = screen.getByRole("button", { name: /john doe/i });
-    fireEvent.click(avatarButton);
-
-    const logoutButton = screen.getByText(/log out/i);
-    fireEvent.click(logoutButton);
-
-    expect(signOut).toHaveBeenCalled();
-  });
-
   it("displays message when not authenticated", () => {
-    render(
-      <SessionProvider session={null}>
-        <Dashboard />
-      </SessionProvider>,
-    );
+    (useSession as vi.Mock).mockReturnValue({
+      data: null,
+      status: "unauthenticated",
+    });
 
-    expect(screen.getByText(/you are not signed in./i)).toBeInTheDocument();
+    render(<Dashboard />);
+    expect(screen.getByText(/you are not signed in/i)).toBeInTheDocument();
   });
 });

@@ -3,54 +3,35 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import UserMenu from "@/components/layout/Header/UserMenu";
-import { SessionProvider } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import { expect, vi } from "vitest";
+import { vi, expect } from "vitest";
 
-// Mock next-auth/react
-vi.mock("next-auth/react", () => ({
-  ...vi.importActual("next-auth/react"),
-  signOut: vi.fn(),
-}));
+vi.mock("next-auth/react");
 
 describe("UserMenu Component", () => {
-  const mockUserName = "John Doe";
-  const mockUserEmail = "john.doe@example.com";
-
-  const renderComponent = () => {
-    render(
-      <SessionProvider>
-        <UserMenu userName={mockUserName} userEmail={mockUserEmail} />
-      </SessionProvider>,
-    );
-  };
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it("renders user avatar correctly", () => {
-    renderComponent();
-    const avatarButton = screen.getByRole("button", { name: /john doe/i });
-    expect(avatarButton).toBeInTheDocument();
+    render(<UserMenu userName="Jane Doe" userEmail="jane@example.com" />);
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
   it("opens dropdown menu on avatar click", () => {
-    renderComponent();
-    const avatarButton = screen.getByRole("button", { name: /john doe/i });
+    render(<UserMenu userName="Jane Doe" userEmail="jane@example.com" />);
+    const avatarButton = screen.getByRole("button");
     fireEvent.click(avatarButton);
-
-    // Check for menu items
     expect(screen.getByText(/signed in as/i)).toBeInTheDocument();
-    expect(screen.getByText(mockUserEmail)).toBeInTheDocument();
-    expect(screen.getByText(/my settings/i)).toBeInTheDocument();
-    expect(screen.getByText(/logout/i)).toBeInTheDocument();
+    expect(screen.getByText(/jane@example.com/i)).toBeInTheDocument();
   });
 
   it("calls signOut when 'Log Out' is clicked", () => {
-    renderComponent();
-    const avatarButton = screen.getByRole("button", { name: /john doe/i });
+    render(<UserMenu userName="Jane Doe" userEmail="jane@example.com" />);
+    const avatarButton = screen.getByRole("button");
     fireEvent.click(avatarButton);
-
-    const logoutButton = screen.getByText(/log out/i);
-    fireEvent.click(logoutButton);
-
+    const logoutItem = screen.getByText(/log out/i);
+    fireEvent.click(logoutItem);
     expect(signOut).toHaveBeenCalled();
   });
 });

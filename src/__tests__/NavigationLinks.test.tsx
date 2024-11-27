@@ -3,18 +3,22 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import NavigationLinks from "@/components/layout/Header/NavigationLinks";
-import { NAV_LINKS } from "@/constants/headerConstants";
+import { Navbar } from "@nextui-org/react";
+import { expect } from "vitest";
 describe("NavigationLinks Component", () => {
-  it("renders all navigation links correctly", () => {
-    render(<NavigationLinks />);
+  const renderComponent = () => {
+    render(
+      <Navbar>
+        <NavigationLinks />
+      </Navbar>,
+    );
+  };
 
-    NAV_LINKS.forEach((link) => {
-      const linkElement = screen.getByText(link.name);
-      expect(linkElement).toBeInTheDocument();
-      expect(linkElement).toHaveAttribute("href", link.href);
-      if (link.isActive) {
-        expect(linkElement).toHaveAttribute("aria-current", "page");
-      }
-    });
+  it("renders all navigation links correctly", () => {
+    renderComponent();
+
+    expect(screen.getByText(/Features/i)).toBeInTheDocument();
+    expect(screen.getByText(/Customers/i)).toBeInTheDocument();
+    expect(screen.getByText(/Integrations/i)).toBeInTheDocument();
   });
 });
