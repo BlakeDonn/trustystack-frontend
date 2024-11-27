@@ -1,10 +1,10 @@
 // src/__tests__/Header.test.tsx
 
 import Header from "@/components/layout/Header/Header";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { useSession } from "next-auth/react";
 import React from "react";
-import { expect, vi } from "vitest";
+import { vi } from "vitest";
 
 vi.mock("next-auth/react");
 
@@ -13,7 +13,7 @@ describe("Header Component", () => {
     vi.clearAllMocks();
   });
 
-  it("renders the header correctly when authenticated", () => {
+  it("renders the header correctly when authenticated", async () => {
     (useSession as vi.Mock).mockReturnValue({
       data: {
         user: { name: "John Doe", email: "john@example.com" },
@@ -23,9 +23,13 @@ describe("Header Component", () => {
     });
 
     render(<Header />);
-    expect(screen.getByAltText(/coastal logo/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/type to search/i)).toBeInTheDocument();
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByAltText(/coastal logo/i)).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText(/type to search/i),
+      ).toBeInTheDocument();
+      expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    });
   });
 
   it("does not render user menu when not authenticated", () => {

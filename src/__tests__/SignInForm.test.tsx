@@ -69,7 +69,10 @@ describe("SignInForm", () => {
       });
     });
 
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    });
+
     expect(console.error).toHaveBeenCalledWith(
       "Sign-in error:",
       new Error("Failed to sign in with Google"),

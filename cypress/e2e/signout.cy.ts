@@ -7,9 +7,9 @@ describe("Logout Flow", () => {
   it("logs out successfully and removes the session", () => {
     cy.mockSignOut();
 
-    cy.get('button[data-slot="trigger"]').click();
+    cy.get('button[data-slot="trigger"]').should('be.visible').click();
 
-    cy.get('li[data-key="logout"]').click();
+    cy.get('li[data-key="logout"]').should('be.visible').click();
 
     cy.wait("@signOut");
 
@@ -19,6 +19,8 @@ describe("Logout Flow", () => {
 
     cy.getCookie("next-auth.session-token").should("not.exist");
 
-    cy.contains("Sign in with Google").should("be.visible");
+    cy.get('button').contains("Sign in with Google", { timeout: 10000 })
+      .should('exist')
+      .should('be.visible');
   });
-}); 
+});

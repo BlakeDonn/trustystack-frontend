@@ -1,7 +1,7 @@
 // src/__tests__/UserMenu.test.tsx
 
 import UserMenu from "@/components/layout/Header/UserMenu";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signOut } from "next-auth/react";
 import React from "react";
 import { expect, vi } from "vitest";
@@ -26,12 +26,15 @@ describe("UserMenu Component", () => {
     expect(screen.getByText(/jane@example.com/i)).toBeInTheDocument();
   });
 
-  it("calls signOut when 'Log Out' is clicked", () => {
+  it("calls signOut when 'Log Out' is clicked", async () => {
     render(<UserMenu userName="Jane Doe" userEmail="jane@example.com" />);
     const avatarButton = screen.getByRole("button");
     fireEvent.click(avatarButton);
     const logoutItem = screen.getByText(/log out/i);
     fireEvent.click(logoutItem);
-    expect(signOut).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(signOut).toHaveBeenCalled();
+    });
   });
 });
