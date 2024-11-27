@@ -1,15 +1,13 @@
-import { expect } from "vitest";
-
 import { SignInForm } from "@/components/auth/SignInForm";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signIn } from "next-auth/react";
-import { vi } from "vitest";
-
-vi.mock("next-auth/react");
+import React from "react";
+import { expect, vi } from "vitest";
 
 describe("SignInForm", () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("renders the Sign In button", () => {
@@ -20,66 +18,88 @@ describe("SignInForm", () => {
   });
 
   it("displays loading state when sign-in is in progress", async () => {
-    const mockSignIn = vi.mocked(signIn);
-    mockSignIn.mockImplementation(() => new Promise(() => {})); // Never resolve the promise to simulate loading state
-
     render(<SignInForm />);
+    const signInButton = screen.getByRole("button", {
+      name: /sign in with google/i,
+    });
 
-    fireEvent.click(
-      screen.getByRole("button", { name: /sign in with google/i }),
-    );
+    fireEvent.click(signInButton);
 
-    expect(screen.getByText("loading...")).toBeInTheDocument();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(signIn).toHaveBeenCalledWith("google", {
+        callbackUrl: "/dashboard",
+      });
+    });
   });
 
   it("handles successful sign-in", async () => {
-    const mockSignIn = vi.mocked(signIn);
-    mockSignIn.mockResolvedValueOnce({ ok: true, error: null });
+    (signIn as vi.Mock).mockResolvedValueOnce({ ok: true });
 
     render(<SignInForm />);
+    const signInButton = screen.getByRole("button", {
+      name: /sign in with google/i,
+    });
 
-    fireEvent.click(
-      screen.getByRole("button", { name: /sign in with google/i }),
-    );
+    fireEvent.click(signInButton);
 
     await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith("google", {
+      expect(signIn).toHaveBeenCalledWith("google", {
         callbackUrl: "/dashboard",
       });
     });
   });
 
   it("handles sign-in failure", async () => {
-    const mockSignIn = vi.mocked(signIn);
-    mockSignIn.mockRejectedValueOnce(new Error("Sign-in failed"));
-
-    render(<SignInForm />);
-
-    fireEvent.click(
-      screen.getByRole("button", { name: /sign in with google/i }),
+    (signIn as vi.Mock).mockRejectedValueOnce(
+      new Error("Failed to sign in with Google"),
     );
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(/failed to sign in with google/i),
-      ).toBeInTheDocument();
+    render(<SignInForm />);
+    const signInButton = screen.getByRole("button", {
+      name: /sign in with google/i,
     });
+
+    fireEvent.click(signInButton);
+
+    await waitFor(() => {
+      expect(signIn).toHaveBeenCalledWith("google", {
+        callbackUrl: "/dashboard",
+      });
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    });
+
+    expect(console.error).toHaveBeenCalledWith(
+      "Sign-in error:",
+      new Error("Failed to sign in with Google"),
+    );
   });
 
   it("resets loading state after error", async () => {
-    const mockSignIn = vi.mocked(signIn);
-    mockSignIn.mockRejectedValueOnce(new Error("Sign-in failed"));
+    (signIn as vi.Mock).mockRejectedValueOnce(new Error("Sign-in failed"));
 
     render(<SignInForm />);
+    const signInButton = screen.getByRole("button", {
+      name: /sign in with google/i,
+    });
 
-    fireEvent.click(
-      screen.getByRole("button", { name: /sign in with google/i }),
-    );
+    fireEvent.click(signInButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole("button", { name: /sign in with google/i }),
-      ).not.toBeDisabled();
+      expect(signIn).toHaveBeenCalledWith("google", {
+        callbackUrl: "/dashboard",
+      });
     });
+
+    expect(signInButton).not.toBeDisabled();
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    expect(console.error).toHaveBeenCalledWith(
+      "Sign-in error:",
+      new Error("Sign-in failed"),
+    );
   });
 });

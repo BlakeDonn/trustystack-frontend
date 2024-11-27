@@ -25,23 +25,47 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      # Step 3: Install dependencies
+      # Step 3: Cache Yarn dependencies
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # New Step: Cache Cypress binaries
+      - name: Cache Cypress binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # Step 4: Lint the code
+      # Optional: Install Cypress if not cached
+      - name: Install Cypress
+        run: yarn run cypress install
+
+      # Step 5: Lint the code
       - name: Lint
         run: yarn lint
 
-      # Step 5: Check code formatting
+      # Step 6: Check code formatting
       - name: Format check
         run: yarn format
 
-      # Step 6: Run Unit Tests
+      # Step 7: Run Unit Tests
       - name: Run Unit Tests
         run: yarn test:unit
 
-      # Step 7: Create .env.test File Using GitHub Secrets
+      # Step 8: Create .env.test File Using GitHub Secrets
       - name: Create .env.test
         run: |
           echo "NODE_ENV=test" > .env.test
@@ -62,11 +86,11 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
-      # Step 8: Copy .env.test to .env.production
+      # Step 9: Copy .env.test to .env.production
       - name: Prepare Environment Variables for Build
         run: cp .env.test .env.production
 
-      # Step 9: Run E2E Tests with NODE_ENV=test
+      # Step 10: Run E2E Tests with NODE_ENV=test
       - name: Run E2E Tests
         env:
           NODE_ENV: test
@@ -74,7 +98,7 @@ jobs:
           yarn dev & # Start the Next.js server in the background
           yarn cypress:run
 
-      # Step 10: Build the project
+      # Step 11: Build the project
       - name: Build
         run: yarn build
 
