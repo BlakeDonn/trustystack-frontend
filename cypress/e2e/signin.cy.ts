@@ -10,9 +10,25 @@ describe("Sign In Flow", () => {
   });
 
   it("handles Google OAuth sign in and redirects to dashboard", () => {
-    cy.signInWithGoogle();
+    // Sign in as a regular user
+    cy.signInWithGoogle("user");
 
+    // Verify redirection to dashboard
     cy.url().should("include", "/dashboard");
+
+    // Assert that the session cookie is set
+    cy.getCookie("next-auth.session-token").should("exist");
+  });
+
+  it("handles Google OAuth sign in as admin and redirects to dashboard", () => {
+    // Sign in as an admin user
+    cy.signInWithGoogle("admin");
+
+    // Verify redirection to dashboard
+    cy.url().should("include", "/dashboard");
+
+    // Assert that the session cookie is set
+    cy.getCookie("next-auth.session-token").should("exist");
   });
 });
 

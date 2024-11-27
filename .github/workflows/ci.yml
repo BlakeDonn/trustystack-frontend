@@ -31,15 +31,27 @@ jobs:
         with:
           path: |
             ~/.cache/yarn
-            # Adjust the path below if you have a different cache directory
             node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      # New Step: Cache Cypress binaries
+      - name: Cache Cypress binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       # Step 4: Install dependencies
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      # Optional: Install Cypress if not cached
+      - name: Install Cypress
+        run: yarn run cypress install
 
       # Step 5: Lint the code
       - name: Lint

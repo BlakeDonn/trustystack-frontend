@@ -54,7 +54,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userEmail }) => (
           <DropdownItem
             key={item.key}
             color={item.color}
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/" })}
           >
             {item.label}
           </DropdownItem>
