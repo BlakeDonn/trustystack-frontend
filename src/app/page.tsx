@@ -1,12 +1,13 @@
 "use client";
 
+import React, { ReactElement } from "react";
 import { SignInForm } from "@/components/auth/SignInForm";
-import Header from "@components/layout/Header/Header";
 import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import Loading from "./loading";
+import PageLayout from "@/components/layout/PageLayout";
 
-export default function Home() {
+const Home: React.FC = React.memo((): ReactElement => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -14,18 +15,20 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <PageLayout>
       {session ? (
-        <div>
-          <p>Welcome, {session.user?.name}!</p>
-          <Button type="button" onClick={() => signOut()}>
+        <div className="flex flex-col items-center justify-center mt-10">
+          <p className="text-xl">Welcome, {session.user?.name}!</p>
+          <Button type="button" onClick={() => signOut()} className="mt-4">
             Logout
           </Button>
         </div>
       ) : (
         <SignInForm callbackUrl="/dashboard" />
       )}
-    </div>
+    </PageLayout>
   );
-}
+});
+
+export default Home;
+

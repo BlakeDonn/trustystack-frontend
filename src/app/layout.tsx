@@ -1,7 +1,8 @@
+import React from "react";
 import { Providers } from "@/app/providers";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -48,10 +49,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark`}
+      className={`${geistSans.variable} ${geistMono.variable} dark h-full`}
     >
-      <body className="antialiased">
-        <Providers>{children}</Providers>
+      <body className="antialiased h-full">
+        <Providers>
+          {/* 
+            Note: The `PageLayout` is a Client Component and should not be directly included here.
+            Instead, it will be included within individual pages.
+          */}
+          {children}
+        </Providers>
       </body>
     </html>
   );

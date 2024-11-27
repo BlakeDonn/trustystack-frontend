@@ -4,17 +4,24 @@ import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React from "react";
+import { type ReactNode, type ReactElement, useMemo } from "react";
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
-  const router = useRouter();
-
-  return (
-    <NextUIProvider navigate={router.push}>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider>{children}</SessionProvider>
-      </QueryClientProvider>
-    </NextUIProvider>
-  );
+interface ProvidersProps {
+  children: ReactNode;
 }
+
+export const Providers: React.FC<ProvidersProps> = React.memo(
+  ({ children }): ReactElement => {
+    const router = useRouter();
+    const queryClient = useMemo(() => new QueryClient(), []);
+
+    return (
+      <NextUIProvider navigate={router.push}>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider>{children}</SessionProvider>
+        </QueryClientProvider>
+      </NextUIProvider>
+    );
+  },
+);

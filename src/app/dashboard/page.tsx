@@ -2,17 +2,17 @@
 
 "use client";
 
-import React from "react";
-import Header from "@/components/layout/Header/Header";
+import React, { ReactElement } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardBody } from "@nextui-org/react";
+import Loading from "../loading";
+import PageLayout from "@/components/layout/PageLayout";
 
-export default function Dashboard() {
+const Dashboard: React.FC = React.memo((): ReactElement => {
   const { data: session, status } = useSession();
 
-  // Handle loading state
   if (status === "loading") {
-    return <div>Loading...</div>; // Or a loading spinner
+    return <Loading />;
   }
 
   if (!session) {
@@ -20,9 +20,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
-      <Header />
-
+    <PageLayout>
       <div className="p-4">
         <Card>
           <CardBody>
@@ -33,6 +31,8 @@ export default function Dashboard() {
           </CardBody>
         </Card>
       </div>
-    </div>
+    </PageLayout>
   );
-}
+});
+
+export default Dashboard;

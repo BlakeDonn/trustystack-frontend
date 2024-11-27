@@ -29,7 +29,7 @@ describe("SignInForm", () => {
       screen.getByRole("button", { name: /sign in with google/i }),
     );
 
-    expect(screen.getByText("loading...")).toBeInTheDocument();
+    expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
   });
 
   it("handles successful sign-in", async () => {

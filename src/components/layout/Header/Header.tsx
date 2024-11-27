@@ -7,6 +7,7 @@ import { Search01Icon } from "hugeicons-react";
 import styles from "./Header.module.css";
 import NavigationLinks from "./NavigationLinks";
 import { useSession } from "next-auth/react";
+import Loading from "@/app/loading";
 
 // Lazy load UserMenu
 const UserMenu = React.lazy(() => import("./UserMenu"));
@@ -14,13 +15,8 @@ const UserMenu = React.lazy(() => import("./UserMenu"));
 const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
-  // Handle loading state
-  if (status === "loading") {
-    return null;
-  }
-
   return (
-    <Navbar isBordered>
+    <Navbar isBordered className={styles.navbarContent}>
       <NavbarContent className={styles.navbarContent}>
         {/* Left Section: Brand Logo */}
         <NavbarBrand className={styles.navbarBrand}>
@@ -45,7 +41,7 @@ const Header: React.FC = () => {
             type="search"
           />
           {session && (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <UserMenu
                 userName={session.user?.name || "User"}
                 userEmail={session.user?.email || "user@example.com"}

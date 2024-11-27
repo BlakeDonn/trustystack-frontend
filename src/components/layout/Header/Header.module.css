@@ -1,8 +1,10 @@
 /* src/components/Header/Header.module.css */
 
 .navbarContent {
-  justify-content: space-between;
-  width: 100%;
+  min-width: 100%;
+  header {
+    min-width: 100%;
+  }
 }
 
 .navbarBrand {
@@ -38,4 +40,8 @@
 
 .avatarButton {
   transition: transform 0.3s ease;
+}
+
+.header {
+  min-width: 100%;
 }
