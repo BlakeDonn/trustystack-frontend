@@ -1,19 +1,17 @@
 // src/components/Header/Header.tsx
 
-import Loading from "@/app/loading";
+import { Suspense } from "react";
+import { auth } from "@/auth/auth";
+import { Navbar, NavbarBrand, NavbarContent } from "@lib/nextui";
 import { CoastalLogo } from "@/components/branding/CoastalLogo";
-import { Input, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
-import { Search01Icon } from "hugeicons-react";
-import { useSession } from "next-auth/react";
-import React, { Suspense } from "react";
+import Loading from "@/app/loading";
 import styles from "./Header.module.css";
-import NavigationLinks from "./NavigationLinks";
+import NavigationLinks from "./Navigation/NavigationLinks";
+import UserMenu from "./UserMenu/UserMenu";
+import SearchInput from "./Search/SearchInput";
 
-// Lazy load UserMenu
-const UserMenu = React.lazy(() => import("./UserMenu"));
-
-const Header: React.FC = () => {
-  const { data: session, status } = useSession();
+export default async function Header() {
+  const session = await auth();
 
   return (
     <Navbar isBordered maxWidth="full">
@@ -28,30 +26,17 @@ const Header: React.FC = () => {
 
         {/* Right Section: Search and User Menu */}
         <NavbarContent as="div" className="flex items-center" justify="end">
-          <Input
-            classNames={{
-              base: `${styles.inputWrapper} sm:max-w-[10rem]`,
-              mainWrapper: "h-full",
-              input: styles.inputBase,
-              inputWrapper: `${styles.inputInnerWrapper} dark:${styles.inputInnerWrapperDark}`,
-            }}
-            placeholder="Type to search..."
-            size="sm"
-            startContent={<Search01Icon size={18} />}
-            type="search"
-          />
+          <Suspense fallback={<Loading />}>
+            <SearchInput />
+          </Suspense>
+          
           {session && (
             <Suspense fallback={<Loading />}>
-              <UserMenu
-                userName={session.user?.name || "User"}
-                userEmail={session.user?.email || "user@example.com"}
-              />
+              <UserMenu user={session.user} />
             </Suspense>
           )}
         </NavbarContent>
       </NavbarContent>
     </Navbar>
   );
-};
-
-export default React.memo(Header);
+}

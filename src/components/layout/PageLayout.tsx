@@ -1,19 +1,19 @@
-"use client";
-
-import React, { type ReactNode } from "react";
+import { auth } from "@/auth/auth";
 import Header from "./Header/Header";
 
 interface PageLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = React.memo(({ children }) => {
+export default async function PageLayout({ children }: PageLayoutProps) {
+  const session = await auth();
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1">{children}</main>
+    <div className="min-h-screen bg-background">
+      <Header user={session?.user} />
+      <main className="container mx-auto px-4 py-8">
+        {children}
+      </main>
     </div>
   );
-});
-
-export default PageLayout;
+}

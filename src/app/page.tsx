@@ -1,33 +1,20 @@
-"use client";
-
-import { SignInForm } from "@/components/auth/SignInForm";
+import { auth } from "@/auth/auth";
 import PageLayout from "@/components/layout/PageLayout";
-import { Button } from "@nextui-org/react";
-import { signOut, useSession } from "next-auth/react";
-import React, { type ReactElement } from "react";
-import Loading from "./loading";
+import SignInForm from "@/components/auth/SignInForm";
+import { redirect } from "next/navigation";
 
-const Home: React.FC = React.memo((): ReactElement => {
-  const { data: session, status } = useSession();
+export default async function Home() {
+  const session = await auth();
 
-  if (status === "loading") {
-    return <Loading />;
+  if (session) {
+    redirect("/dashboard");
   }
 
   return (
     <PageLayout>
-      {session ? (
-        <div className="flex flex-col items-center justify-center mt-10">
-          <p className="text-xl">Welcome, {session.user?.name}!</p>
-          <Button type="button" onClick={() => signOut()} className="mt-4">
-            Logout
-          </Button>
-        </div>
-      ) : (
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <SignInForm callbackUrl="/dashboard" />
-      )}
+      </div>
     </PageLayout>
   );
-});
-
-export default Home;
+}

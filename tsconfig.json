@@ -40,6 +40,9 @@
       ],
       "@types/*": [
         "./src/types/*"
+      ],
+      "@auth/*": [
+        "./src/auth/*"
       ]
     },
     "types": [

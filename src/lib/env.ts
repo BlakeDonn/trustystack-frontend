@@ -3,6 +3,10 @@ const requiredEnvVars = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  POSTGRES_HOST: process.env.POSTGRES_HOST || "localhost",
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
+  POSTGRES_DB: process.env.POSTGRES_DB,
 } as const;
 
 export function validateEnv() {
