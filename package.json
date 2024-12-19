@@ -28,7 +28,7 @@
     "framer-motion": "^11.11.17",
     "hugeicons-react": "^0.3.0",
     "next": "15.0.2",
-    "next-auth": "^4.24.10",
+    "next-auth": "^5.0.0-beta.25",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "zod": "^3.22.4"

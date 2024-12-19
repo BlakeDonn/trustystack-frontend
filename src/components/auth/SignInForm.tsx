@@ -1,15 +1,15 @@
 "use client";
 
-import Loading from "@/app/loading";
-import { signIn } from "next-auth/react";
 import React, { useState, useCallback, type ReactElement } from "react";
+import { signIn } from "next-auth/react";
 import Button from "../ui/Button";
+import Loading from "@/app/loading";
 
 interface SignInFormProps {
   callbackUrl?: string;
 }
 
-export const SignInForm: React.FC<SignInFormProps> = React.memo(
+const SignInForm: React.FC<SignInFormProps> = React.memo(
   ({ callbackUrl = "/dashboard" }): ReactElement => {
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export const SignInForm: React.FC<SignInFormProps> = React.memo(
           disabled={isLoading}
           className="btn"
         >
-          <GoogleIcon className="w-5 h-5" />
+          <GoogleIcon className="w-5 h-5 mr-2" />
           Sign in with Google
         </Button>
       </div>
@@ -40,6 +40,9 @@ export const SignInForm: React.FC<SignInFormProps> = React.memo(
   },
 );
 
+export default SignInForm;
+
+// GoogleIcon Component
 const GoogleIcon: React.FC<{ className?: string }> = React.memo(
   ({ className }) => (
     <svg className={className} viewBox="0 0 24 24">

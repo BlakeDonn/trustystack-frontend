@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInForm } from "@/components/auth/SignInForm";
+import SignInForm from "@/components/auth/SignInForm";
 import PageLayout from "@/components/layout/PageLayout";
 import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";

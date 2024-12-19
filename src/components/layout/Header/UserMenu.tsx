@@ -13,6 +13,7 @@ import {
 import { signOut } from "next-auth/react";
 import React from "react";
 import styles from "./Header.module.css";
+import { SignOut } from "@/components/auth/signout-button";
 
 interface UserMenuProps {
   userName: string;
