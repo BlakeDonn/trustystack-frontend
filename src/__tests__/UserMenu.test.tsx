@@ -1,6 +1,6 @@
 // src/__tests__/UserMenu.test.tsx
 
-import UserMenu from "@/components/layout/Header/UserMenu";
+import UserMenu from "@/components/layout/Header/UserMenu/UserMenu";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { signOut } from "next-auth/react";
 import React from "react";

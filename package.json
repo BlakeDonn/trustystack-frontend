@@ -19,6 +19,7 @@
     "cypress:run": "cypress run"
   },
   "dependencies": {
+    "@auth/pg-adapter": "^1.7.4",
     "@biomejs/biome": "^1.9.4",
     "@nextui-org/button": "^2.0.38",
     "@nextui-org/react": "^2.4.8",
@@ -29,6 +30,7 @@
     "hugeicons-react": "^0.3.0",
     "next": "15.0.2",
     "next-auth": "^5.0.0-beta.25",
+    "pg": "^8.13.1",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "zod": "^3.22.4"
@@ -39,6 +41,7 @@
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.3",

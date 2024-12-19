@@ -1,38 +1,20 @@
 // src/app/dashboard/page.tsx
 
-"use client";
-
+import { auth } from "@/auth/auth";
+import { redirect } from "next/navigation";
 import PageLayout from "@/components/layout/PageLayout";
-import { Card, CardBody } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
-import React, { type ReactElement } from "react";
-import Loading from "../loading";
+import DashboardContent from "@/components/dashboard/DashboardContent";
 
-const Dashboard: React.FC = React.memo((): ReactElement => {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <Loading />;
-  }
+export default async function DashboardPage() {
+  const session = await auth();
 
   if (!session) {
-    return <div>You are not signed in.</div>;
+    redirect("/");
   }
 
   return (
     <PageLayout>
-      <div className="p-4">
-        <Card>
-          <CardBody>
-            <h3 className="text-lg font-semibold">
-              Welcome, {session.user?.name}!
-            </h3>
-            <span>Your email: {session.user?.email}</span>
-          </CardBody>
-        </Card>
-      </div>
+      <DashboardContent user={session.user} />
     </PageLayout>
   );
-});
-
-export default Dashboard;
+}
