@@ -12,6 +12,7 @@ import SearchInput from "./Search/SearchInput";
 
 export default async function Header() {
   const session = await auth();
+  console.log(session);
 
   return (
     <Navbar isBordered maxWidth="full">
@@ -29,7 +30,7 @@ export default async function Header() {
           <Suspense fallback={<Loading />}>
             <SearchInput />
           </Suspense>
-          
+
           {session && (
             <Suspense fallback={<Loading />}>
               <UserMenu user={session.user} />

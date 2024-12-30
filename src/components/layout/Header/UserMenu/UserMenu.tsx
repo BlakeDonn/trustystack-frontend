@@ -1,11 +1,10 @@
 // src/components/Header/UserMenu.tsx
 
-import { User } from "next-auth";
+import type { User } from "next-auth";
 import UserMenuButton from "./UserMenuButton";
-import UserMenuDropdown from "./UserMenuDropdown";
 
 interface UserMenuProps {
-  user: User | underfined;
+  user: User | undefined;
 }
 
 export default function UserMenu({ user }: UserMenuProps) {
