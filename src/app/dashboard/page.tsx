@@ -7,6 +7,7 @@ import DashboardContent from "@/components/dashboard/DashboardContent";
 
 export default async function DashboardPage() {
   const session = await auth();
+  console.log(session);
 
   if (!session) {
     redirect("/");

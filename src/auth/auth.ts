@@ -1,9 +1,9 @@
+// auth.ts
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { Pool } from "pg";
+import { authOptions } from "@/config/auth.config";
 
-// Create a connection pool
 const pool = new Pool({
   host: process.env.POSTGRES_HOST || "localhost",
   user: process.env.POSTGRES_USER,
@@ -16,10 +16,11 @@ const pool = new Pool({
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PostgresAdapter(pool),
-  providers: [Google],
   callbacks: {
     authorized: async ({ auth }) => {
       return !!auth;
     },
   },
+  session: { strategy: "jwt" },
+  ...authOptions,
 });

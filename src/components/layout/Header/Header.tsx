@@ -12,7 +12,6 @@ import SearchInput from "./Search/SearchInput";
 
 export default async function Header() {
   const session = await auth();
-  console.log(session);
 
   return (
     <Navbar isBordered maxWidth="full">
