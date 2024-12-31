@@ -53,7 +53,7 @@ export default function RootLayout({
     >
       <body className="antialiased h-full">
         <Providers>
-          {/* 
+          {/*
             Note: The `PageLayout` is a Client Component and should not be directly included here.
             Instead, it will be included within individual pages.
           */}

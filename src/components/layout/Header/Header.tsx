@@ -1,7 +1,7 @@
 // src/components/Header/Header.tsx
 
 import { Suspense } from "react";
-import { auth } from "@/auth/auth";
+import { auth } from "@auth/auth";
 import { Navbar, NavbarBrand, NavbarContent } from "@lib/nextui";
 import { CoastalLogo } from "@/components/branding/CoastalLogo";
 import Loading from "@/app/loading";
