@@ -10,6 +10,26 @@ export const authOptions: NextAuthConfig = {
       clientSecret: env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (env.ADMIN_LIST.includes(token.email)) {
+        token.role = "admin";
+      }
+      if (user) {
+        token.role = user.role || "user";
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (env.ADMIN_LIST.includes(token.email)) {
+        token.role = "admin";
+      }
+      if (session?.user) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/signin",
     signOut: "/signout",
