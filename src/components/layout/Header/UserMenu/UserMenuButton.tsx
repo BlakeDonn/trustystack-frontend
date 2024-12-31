@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import { User } from "next-auth";
-import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@lib/nextui";
+import type { User } from "next-auth";
+import {
+  Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@lib/nextui";
 import { signOut } from "next-auth/react";
 
 interface UserMenuButtonProps {
@@ -12,11 +18,11 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button className="flex items-center gap-2">
+        <Button className="flex items-center gap-2 px-6">
           {user.image && (
-            <img 
-              src={user.image} 
-              alt={user.name || 'User'} 
+            <img
+              src={user.image}
+              alt={user.name || "User"}
               className="w-6 h-6 rounded-full"
             />
           )}
@@ -26,9 +32,9 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
       <DropdownMenu>
         <DropdownItem key="profile">Profile</DropdownItem>
         <DropdownItem key="settings">Settings</DropdownItem>
-        <DropdownItem 
-          key="logout" 
-          className="text-danger" 
+        <DropdownItem
+          key="logout"
+          className="text-danger"
           color="danger"
           onClick={() => signOut()}
         >
@@ -37,4 +43,4 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
       </DropdownMenu>
     </Dropdown>
   );
-} 
+}

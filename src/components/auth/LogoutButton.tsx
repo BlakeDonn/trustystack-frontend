@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@lib/nextui";
-import { signOut } from "next-auth/react";
+import { signOut } from "@auth/auth";
 
 export default function LogoutButton() {
   return (
