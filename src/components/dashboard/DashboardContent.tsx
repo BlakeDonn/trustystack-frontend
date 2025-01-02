@@ -1,9 +1,10 @@
 // src/components/dashboard/DashboardContent.tsx
+"use client";
 
 import React from "react";
 import { useGraphQL } from "@/hooks/useGraphQL";
 import { gql } from "graphql-tag";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react"; // Assuming you're using NextAuth for authentication
 
 const GET_DASHBOARD = gql`
   query GetDashboard {
@@ -28,27 +29,60 @@ interface GetDashboardDataResponse {
 }
 
 export default function DashboardContent() {
-  const { data: session, status } = useSession();
+  // If using NextAuth, retrieve the session to get user info
+  const status = useSession();
+  console.log(status);
 
-  if (status === "loading") {
-    return <p>Loading session...</p>;
-  }
+  //// Handle loading state for session
+  //if (status === "loading") {
+  //  return <p>Loading session...</p>;
+  //}
 
-  if (status === "unauthenticated") {
-    return <p>Please sign in to view your dashboard.</p>;
-  }
+  //// Handle unauthenticated state
+  //if (status === "unauthenticated") {
+  //  return <p>Please sign in to view your dashboard.</p>;
+  //}
 
-  const sessionToken = session?.user?.sessionToken;
+  // Extract the session token from the session or cookies
+  // Adjust based on how your session object is structured
+  //const sessionToken = session?.user?.sessionToken; // Ensure this exists
 
-  if (!sessionToken) {
-    return <p>Missing session token.</p>;
-  }
+  //// Handle cases where sessionToken might be undefined
+  //if (!sessionToken) {
+  //  return <p>Missing session token.</p>;
+  //}
 
+  // Define the fetch function tailored for the dashboard query
+  const fetchDashboard = async (): Promise<DashboardData> => {
+    const request = {
+      query: GET_DASHBOARD.loc?.source.body || "",
+      // No variables needed as per backend adjustments
+    };
+
+    const response = await fetchGraphQL<GetDashboardDataResponse>({
+      query: request.query,
+    });
+
+    if (!response.data) {
+      throw new Error("No data returned from GraphQL query");
+    }
+
+    return response.data.dashboard.dashboardData;
+  };
+
+  // Use React Query to fetch the dashboard data
   const { data, error, isLoading } = useGraphQL<
     GetDashboardDataResponse,
     undefined
-  >(GET_DASHBOARD, undefined, {
-    enabled: !!sessionToken,
+  >({
+    query: GET_DASHBOARD.loc?.source.body || "",
+    variables: undefined, // No variables needed
+    options: {
+      enabled: !!false, // Ensure the query runs only when sessionToken is available
+      onError: (err) => {
+        console.error("Error fetching dashboard data:", err);
+      },
+    },
   });
 
   if (isLoading) return <p>Loading Dashboard...</p>;

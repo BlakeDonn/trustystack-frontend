@@ -11,14 +11,20 @@ import {
   GraphQLResponse,
 } from "@/lib/graphqlClient";
 
+interface UseGraphQLParams<TVariables> {
+  query: string;
+  variables?: TVariables;
+  options?: UseQueryOptions<GraphQLResponse<any>, Error>;
+}
+
 export function useGraphQL<TData, TVariables>(
-  query: string,
-  variables?: TVariables,
-  options?: UseQueryOptions<GraphQLResponse<TData>, Error>,
+  params: UseGraphQLParams<TVariables>,
 ): UseQueryResult<GraphQLResponse<TData>, Error> {
-  return useQuery<GraphQLResponse<TData>, Error>(
-    [query, variables],
-    () => fetchGraphQL<TData>({ query, variables }),
-    options,
-  );
+  const { query, variables, options } = params;
+
+  return useQuery<GraphQLResponse<TData>, Error>({
+    queryKey: [query, variables],
+    queryFn: () => fetchGraphQL<TData>({ query, variables }),
+    ...options,
+  });
 }
