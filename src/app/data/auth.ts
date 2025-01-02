@@ -45,10 +45,13 @@ export class User {
  * If you want a fresh read each time, omit the cache.
  */
 export const getCurrentUser = cache(async (): Promise<User | null> => {
-  const tokenCookie = cookies().get("AUTH_TOKEN");
-  const tokenValue = tokenCookie?.value;
+  const cookieStore = await cookies();
 
-  const decoded = await decryptAndValidate(tokenValue);
+  const token =
+    cookieStore.get("next-auth.session-token")?.value ??
+    cookieStore.get("authjs.session-token")?.value;
+
+  const decoded = await decryptAndValidate(token);
   if (!decoded) return null;
 
   return new User(decoded.userId, decoded.role);

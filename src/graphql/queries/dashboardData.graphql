@@ -1,0 +1,10 @@
+# src/graphql/queries/dashboardData.graphql
+
+query GetDashboard {
+  dashboard {
+    dashboardData {
+      projects
+      welcome_msg
+    }
+  }
+}

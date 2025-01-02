@@ -26,6 +26,7 @@ export const authOptions: NextAuthConfig = {
       }
       if (session?.user) {
         session.user.role = token.role;
+        session.user.id = token.sub;
       }
       return session;
     },

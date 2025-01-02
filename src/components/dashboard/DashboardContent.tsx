@@ -1,19 +1,71 @@
-"use client";
+// src/components/dashboard/DashboardContent.tsx
 
-import { User } from "next-auth";
-import type { DashboardData } from "@/app/data/dashboard-data";
+import React from "react";
+import { useGraphQL } from "@/hooks/useGraphQL";
+import { gql } from "graphql-tag";
+import { useSession } from "next-auth/react";
 
-interface DashboardContentProps {
-  user: User;
-  dashboardData: DashboardData;
+const GET_DASHBOARD = gql`
+  query GetDashboard {
+    dashboard {
+      dashboardData {
+        projects
+        welcome_msg
+      }
+    }
+  }
+`;
+
+interface DashboardData {
+  projects: string[];
+  welcome_msg: string;
 }
 
-export default function DashboardContent({ user, dashboardData }: DashboardContentProps) {
+interface GetDashboardDataResponse {
+  dashboard: {
+    dashboardData: DashboardData;
+  };
+}
+
+export default function DashboardContent() {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <p>Loading session...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Please sign in to view your dashboard.</p>;
+  }
+
+  const sessionToken = session?.user?.sessionToken;
+
+  if (!sessionToken) {
+    return <p>Missing session token.</p>;
+  }
+
+  const { data, error, isLoading } = useGraphQL<
+    GetDashboardDataResponse,
+    undefined
+  >(GET_DASHBOARD, undefined, {
+    enabled: !!sessionToken,
+  });
+
+  if (isLoading) return <p>Loading Dashboard...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!data?.dashboard.dashboardData) return <p>No data found</p>;
+
+  const { projects, welcome_msg } = data.dashboard.dashboardData;
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
-      <p>API Version: {dashboardData.apiVersion}</p>
-      {/* Add more dashboard content using the data */}
+    <div>
+      <h2>My Projects</h2>
+      <ul>
+        {projects.map((proj) => (
+          <li key={proj}>{proj}</li>
+        ))}
+      </ul>
+      <p>{welcome_msg}</p>
     </div>
   );
 }

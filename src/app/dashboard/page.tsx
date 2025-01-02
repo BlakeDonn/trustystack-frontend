@@ -1,17 +1,11 @@
-// src/app/dashboard/page.tsx
-
+// app/dashboard/page.tsx
 import { auth } from "@/auth/auth";
 import PageLayout from "@/components/layout/PageLayout";
 import DashboardContent from "@/components/dashboard/DashboardContent";
-import { getDashboardData } from "@/app/data/dashboard-data";
 
 export default async function DashboardPage() {
-  const [session, dashboardData] = await Promise.all([
-    auth(),
-    getDashboardData(),
-  ]);
-  console.log(dashboardData);
-
+  // Basic server check for session
+  const session = await auth();
   if (!session?.user) {
     return (
       <PageLayout>
@@ -20,17 +14,10 @@ export default async function DashboardPage() {
     );
   }
 
-  if (!dashboardData) {
-    return (
-      <PageLayout>
-        <h1>Failed to load dashboard data</h1>
-      </PageLayout>
-    );
-  }
-
+  // If signed in, render the Client Component that uses React Query
   return (
     <PageLayout>
-      <DashboardContent user={session.user} dashboardData={dashboardData} />
+      <DashboardContent />
     </PageLayout>
   );
 }
