@@ -8,6 +8,9 @@ export const getGraphQLClient = async () => {
   return new GraphQLClient(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/graphql', {
     headers: {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      'Content-Type': 'application/json',
     },
+    credentials: 'include',
+    mode: 'cors',
   });
 }; 

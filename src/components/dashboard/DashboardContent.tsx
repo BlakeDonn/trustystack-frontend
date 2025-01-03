@@ -12,7 +12,7 @@ const GET_DASHBOARD = gql`
     dashboard {
       dashboardData {
         projects
-        welcome_msg
+        welcomeMsg
       }
     }
   }
@@ -20,7 +20,7 @@ const GET_DASHBOARD = gql`
 
 interface DashboardData {
   projects: string[];
-  welcome_msg: string;
+  welcomeMsg: string;
 }
 
 interface GetDashboardDataResponse {
@@ -61,7 +61,7 @@ export default function DashboardContent() {
   if (error) return <p>Error: {error.message}</p>;
   if (!data?.dashboard.dashboardData) return <p>No data found</p>;
 
-  const { projects, welcome_msg } = data.dashboard.dashboardData;
+  const { projects, welcomeMsg } = data.dashboard.dashboardData;
 
   return (
     <div>
@@ -71,7 +71,7 @@ export default function DashboardContent() {
           <li key={proj}>{proj}</li>
         ))}
       </ul>
-      <p>{welcome_msg}</p>
+      <p>{welcomeMsg}</p>
     </div>
   );
 }

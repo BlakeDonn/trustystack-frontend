@@ -8,7 +8,7 @@ const RUST_BACKEND_URL =
 
 export interface DashboardData {
   projects: string[];
-  welcome_msg: string;
+  welcomeMsg: string;
 }
 
 export async function getDashboardDTO(): Promise<DashboardData | null> {

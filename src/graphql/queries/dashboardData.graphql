@@ -4,7 +4,7 @@ query GetDashboard {
   dashboard {
     dashboardData {
       projects
-      welcome_msg
+      welcomeMsg
     }
   }
 }
