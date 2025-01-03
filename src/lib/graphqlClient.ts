@@ -19,6 +19,7 @@ export async function fetchGraphQL<TData, TVariables = undefined>({
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({ query, variables }),
   });
 
