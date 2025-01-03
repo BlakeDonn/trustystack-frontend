@@ -2,19 +2,19 @@
 
 import {
   useQuery,
-  UseQueryOptions,
-  UseQueryResult,
+  type UseQueryOptions,
+  type UseQueryResult,
 } from "@tanstack/react-query";
 import {
   fetchGraphQL,
   GraphQLRequest,
-  GraphQLResponse,
+  type GraphQLResponse,
 } from "@/lib/graphqlClient";
 
 interface UseGraphQLParams<TVariables> {
   query: string;
   variables?: TVariables;
-  options?: UseQueryOptions<GraphQLResponse<any>, Error>;
+  options?: UseQueryOptions<GraphQLResponse<TData>, Error>;
 }
 
 export function useGraphQL<TData, TVariables>(
