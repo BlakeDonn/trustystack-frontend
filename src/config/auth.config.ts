@@ -1,15 +1,8 @@
 import { env } from "@/lib/env";
 import type { NextAuthConfig } from "next-auth";
 
-import GoogleProvider from "next-auth/providers/google";
-
 export const authOptions: NextAuthConfig = {
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID || "",
-      clientSecret: env.GOOGLE_CLIENT_SECRET || "",
-    }),
-  ],
+  providers: [],
   callbacks: {
     jwt: async ({ token, user }) => {
       if (env.ADMIN_LIST.includes(token.email)) {
@@ -26,8 +19,23 @@ export const authOptions: NextAuthConfig = {
       }
       if (session?.user) {
         session.user.role = token.role;
+        session.user.id = token.sub || "0";
       }
       return session;
+    },
+    authorized({ auth, request: { nextUrl } }) {
+      const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+
+      if (isAdminRoute && auth?.user.role !== "admin") {
+        return Response.redirect(new URL("/unauthorized", nextUrl));
+      }
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false;
+      }
+      return true;
     },
   },
   pages: {
