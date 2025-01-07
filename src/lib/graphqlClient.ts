@@ -13,7 +13,10 @@ export interface GraphQLResponse<TData> {
 export async function fetchGraphQL<TData, TVariables = undefined>({
   query,
   variables,
-}: GraphQLRequest<TVariables>): Promise<GraphQLResponse<TData>> {
+}: {
+  query: string;
+  variables?: TVariables;
+}): Promise<GraphQLResponse<TData>> {
   const response = await fetch("http://localhost:8080/graphql", {
     method: "POST",
     headers: {
@@ -23,6 +26,19 @@ export async function fetchGraphQL<TData, TVariables = undefined>({
     body: JSON.stringify({ query, variables }),
   });
 
-  const result: GraphQLResponse<TData> = await response.json();
+  if (!response.ok) {
+    const text = await response.text();
+    console.error("GraphQL response not OK:", text);
+    throw new Error(`Network response was not ok: ${response.statusText}`);
+  }
+
+  let result: GraphQLResponse<TData>;
+  try {
+    result = await response.json();
+  } catch (error) {
+    const text = await response.text();
+    console.error("Failed to parse JSON:", text);
+    throw new Error("Failed to parse JSON response from GraphQL endpoint.");
+  }
   return result;
 }
